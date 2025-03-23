@@ -2,7 +2,8 @@ import tkinter as tk
 from ttkthemes import ThemedStyle
 
 from src.ui import Ui
-from src.controllers import Controller
+from src.controller import Controller
+from src.model import Model
 
 class App(tk.Tk):
     def __init__(self):
@@ -14,7 +15,8 @@ class App(tk.Tk):
         self.style = ThemedStyle(self)
         self.style.theme_use('scidmint')
         
+        self.model = Model()
         self.ui = Ui(self)
-        self.controller = Controller(self.ui)
+        self.controller = Controller(self.ui, self.model)
 
         self.ui.upload_button.config(command=self.controller.on_upload)
