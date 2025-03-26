@@ -20,3 +20,4 @@ class App(tk.Tk):
         self.controller = Controller(self.ui, self.model)
 
         self.ui.upload_button.config(command=self.controller.on_upload)
+        self.ui.extract_button.config(command=self.controller.on_extract)
