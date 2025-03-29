@@ -26,7 +26,8 @@ class Controller:
             self.ui.show_info('Image is not uploaded')
             return
         processor = EyeProcessor(self.model.image)
-        self.model.image = processor.process()
+        # self.model.image = processor.get_pupil_mask()
+        self.model.image = processor.get_iris_mask()
         self.display_image()
 
     def display_image(self):
