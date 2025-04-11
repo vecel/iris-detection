@@ -12,16 +12,20 @@ class EyeProcessor:
         self.y = None
         self.pupil_r = None
         self.iris_r = None
+
+        self._bright = cv2.add(self.image, 100)
         
         self.process_pupil()
         self.process_iris()
         self.expand_to_rect()
 
-    def get_pupil_mask(self):
-        return (1 - self.pupil_mask) * 255
-    
-    def get_iris_mask(self):
-        return (1 - self.iris_mask) * 255
+    @property
+    def pupil(self):
+        return np.where(self.pupil_mask == 1, self.image, self._bright)
+
+    @property
+    def iris(self):
+        return np.where(self.iris_mask == 1, self.image, self._bright)
 
     def process_pupil(self):
         self.pupil_mask = self._binarize(self.image, threshold=40)

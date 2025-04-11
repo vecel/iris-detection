@@ -9,8 +9,8 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Iris Extractor')
-        self.geometry('800x600')
-        self.minsize(800, 600)
+        self.geometry('1024x768')
+        self.minsize(1024, 768)
         
         self.style = ThemedStyle(self)
         self.style.theme_use('scidmint')
