@@ -7,6 +7,7 @@ class EyeProcessor:
         self.image = image
         self.pupil_mask = np.zeros_like(image)
         self.iris_mask = np.zeros_like(image)
+        self.iris_rect = None
         self.x = None
         self.y = None
         self.pupil_r = None
@@ -14,6 +15,7 @@ class EyeProcessor:
         
         self.process_pupil()
         self.process_iris()
+        self.expand_to_rect()
 
     def get_pupil_mask(self):
         return (1 - self.pupil_mask) * 255
@@ -40,10 +42,27 @@ class EyeProcessor:
             cv2.circle(mask, (self.x, self.y), r, 1, thickness=-1)
             means[r - self.pupil_r + 1] = np.mean(self.iris_mask[mask == 1])
         max_r = np.argmax(means)
-        self.iris_r = max_r + self.pupil_r
+        self.iris_r = max_r + self.pupil_r + 5
         self.iris_mask = np.zeros_like(self.image)
         cv2.circle(self.iris_mask, (self.x, self.y), self.iris_r, 1, thickness=-1)
         cv2.circle(self.iris_mask, (self.x, self.y), self.pupil_r, 0, thickness=-1)
+
+    def expand_to_rect(self):
+        width = int(2 * np.pi * self.iris_r)
+        height = int(self.iris_r - self.pupil_r)
+        self.iris_rect = np.ones((height, width)) * 128
+        for y, x in np.argwhere(self.iris_mask == 1):
+            r = np.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+            cos = (x - self.x) / r
+            sin = (y - self.y) / r
+            theta = np.arctan2(sin, cos)
+            if theta < 0:
+                theta += 2 * np.pi
+            rect_y = int(r - self.pupil_r)
+            rect_y = max(min(height - 1, rect_y), 0)
+            rect_x = int(theta * self.iris_r)
+            rect_x = max(min(width - 1, rect_x), 0)
+            self.iris_rect[rect_y, rect_x] = self.image[y, x]
     
     def _binarize(self, image, threshold):
         return (image < threshold).astype(np.uint8)

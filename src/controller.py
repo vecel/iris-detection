@@ -1,5 +1,6 @@
 import tkinter.filedialog as fd
 import cv2
+import numpy as np
 from PIL import Image, ImageTk
 
 from src.ui import Ui
@@ -27,7 +28,12 @@ class Controller:
             return
         processor = EyeProcessor(self.model.image)
         # self.model.image = processor.get_pupil_mask()
-        self.model.image = processor.get_iris_mask()
+        # self.model.image = processor.get_iris_mask()
+        # temporary
+        # iris_mask = processor.get_iris_mask()
+        # bright = cv2.add(self.model.image, 100)
+        # self.model.image = np.where(iris_mask == 0, self.model.image, bright)
+        self.model.image = processor.iris_rect
         self.display_image()
 
     def display_image(self):
