@@ -1,13 +1,11 @@
 import tkinter.filedialog as fd
 import cv2
-import numpy as np
 from PIL import Image, ImageTk
+import random
 
 from src.ui import Ui
 from src.model import Model
 from src.processors.eye_processor import EyeProcessor
-
-import random # temporary
 
 class Controller:
     def __init__(self, ui: Ui, model: Model):
@@ -16,7 +14,6 @@ class Controller:
 
     def on_upload(self):
         image_path = fd.askopenfilename(filetypes=[('Bitmap Files', '*.bmp')])
-        # image_path = self._random_image_path() # temporary
         image = cv2.imread(image_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         self.ui.remove_image(cell=1)
