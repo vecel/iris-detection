@@ -41,3 +41,9 @@ python3 script.py
 ```bash
 python3 main.py
 ```
+
+---
+
+## Screenshots
+
+![Screenshot of application window](./screenshots/iris-detection-screen.png)
