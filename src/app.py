@@ -14,6 +14,10 @@ class App(tk.Tk):
         
         self.style = ThemedStyle(self)
         self.style.theme_use('scidmint')
+
+        self.primary_color = '#434343'
+        self.secondary_color = '#A3A3A3'
+        self.tertiary_color = '#707070'
         
         self.model = Model()
         self.ui = Ui(self)
