@@ -41,14 +41,3 @@ for number in os.listdir(base_dir):
                     # print(f"Moved: {old_path} -> {new_path}")
 
 print("Renaming and moving complete!")
-
-# Download dataset to cache
-
-# import kagglehub
-
-# # Download latest version
-# path = kagglehub.dataset_download("naureenmohammad/mmu-iris-dataset")
-
-# print("Path to dataset files:", path)
-
-# TODO: Combine downloading dataset from kaggle, move it to data directory, use script above to rename files, delete remaining MMU-Iris-Database directory
